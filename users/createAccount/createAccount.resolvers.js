@@ -8,7 +8,7 @@ export default {
             lastName,
             username,
             email,
-            password,
+            password
         }) => {
             // check if username or email are already on DB.
             try {
