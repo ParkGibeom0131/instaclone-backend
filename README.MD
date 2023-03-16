@@ -15,7 +15,7 @@ Instaclone Backend.
 - [] See Followers
 - [] See Following
 
-## Photos
+## Photos :
 
 - [] See Photo
 - [] Upload Photo
