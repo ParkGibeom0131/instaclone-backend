@@ -7,8 +7,8 @@ Instaclone Backend.
 - [✔] Create Account
 - [✔] See Profile
 - [✔] Login
-- [] Edit Profile
-- [] Change Avatar (Image Upload)
+- [✔] Edit Profile
+- [✔] Change Avatar (Image Upload)
 - [] Follow User
 - [] Unfollow User
 - [] Search Users

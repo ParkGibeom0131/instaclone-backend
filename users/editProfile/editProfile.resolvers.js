@@ -1,3 +1,4 @@
+import { createWriteStream } from 'fs';
 import client from '../../client';
 import bcrypt from 'bcrypt';
 import { protectedResolver } from '../users.utils';
@@ -11,9 +12,21 @@ export default {
                 lastName,
                 username,
                 email,
-                password: newPassword
-            }, { loggedInUser, protectedResolver }) => {
+                password: newPassword,
+                bio,
+                avatar
+            }, { loggedInUser }) => {
                 // context는 모든 resolver에서 접근 가능한 정보를 넣을 수 있는 object
+
+                let avatarUrl = null;
+                if (avatar) {
+                    const { filename, createReadStream } = await avatar;
+                    const newFilename = `${loggedInUser.id}-${Date.now()}-${filename}`;
+                    const readStream = createReadStream();
+                    const writeStream = createWriteStream(process.cwd() + "/uploads/" + newFilename);
+                    readStream.pipe(writeStream);
+                    avatarUrl = `http://localhost:4000/static/${newFilename}`;
+                }
 
                 let uglyPassword = null;
                 if (newPassword) {
@@ -29,7 +42,9 @@ export default {
                         lastName,
                         username,
                         email,
+                        bio,
                         ...(uglyPassword && { password: uglyPassword }),
+                        ...(avatarUrl && { avatar: avatarUrl }),
                         // (uglyPassword is true && { return object })
                         // condition이 true일 경우 object를 리턴 => ES6 문법
                     },

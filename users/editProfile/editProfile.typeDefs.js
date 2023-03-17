@@ -13,6 +13,9 @@ export default gql`
             username: String
             email: String
             password: String
+            bio: String
+            avatar: Upload
         ): EditProfileResult!
     }
 `;
+//Upload는 Cross-Site Request Forgery(CSRF) 공격에 취약함
