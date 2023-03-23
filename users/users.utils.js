@@ -23,11 +23,17 @@ export const getUser = async (Authorization) => {
 
 export const protectedResolver = (ourResolver) => (root, args, context, info) => {
     // Currying => protectResolver 함수가 리턴하는 함수는 실행되지 않은 함수
+    // info 파라미터를 통해 query를 보냈는지, mutation을 보냈는지 구분 가능
     if (!context.loggedInUser) {
-        return {
-            ok: false,
-            error: "Please log in to perform this action."
-        };
+        const query = info.operation.operation === "query";
+        if (query) {
+            return null;
+        } else {
+            return {
+                ok: false,
+                error: "Please log in to perform this action."
+            };
+        }
     }
     return ourResolver(root, args, context, info);
 };

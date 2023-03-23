@@ -26,9 +26,20 @@ Instaclone Backend.
 - [✔] Like / Unlike Photo
 - [✔] See Photo Likes
 - [✔] See Feed
+- [✔] See Photo Comments
+- [✔] Is Mine (Delete Photo)
+- [✔] Delete Photo
 
 ## Comments :
 
-- [] Comment on Photo
-- [] Edit Comment
-- [] Delete Comment
+- [✔] Comment on Photo
+- [✔] Delete Comment (Is Mine)
+- [✔] Edit Comment
+
+## Refactor :
+
+- [✔] Mutation Responses
+
+## Extras :
+
+- [✔] S3 Image Upload
