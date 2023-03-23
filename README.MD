@@ -43,3 +43,34 @@ Instaclone Backend.
 ## Extras :
 
 - [✔] S3 Image Upload
+
+## DMs :
+
+- [✔] See Room
+- [✔] Send Message (Create Room)
+- [✔] See Rooms
+- [✔] Computed Fields
+- [✔] See (Read) Message
+- [] Realtime Messages
+
+<pre><code>{
+    rooms {
+        users {
+            avatar
+            username
+        }
+        unreadNumber
+    }
+    room {
+        users {
+            avatar
+            username
+        }
+        Messages {
+            payload
+            seen
+        }
+    }
+}</code></pre>
+
+Realtime에 특화된 언어: erlang, elixir...
