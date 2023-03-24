@@ -1,4 +1,5 @@
 require("dotenv").config();
+import http from "http";
 import express from "express";
 import logger from 'morgan';
 import { ApolloServer } from "apollo-server-express";
@@ -13,10 +14,30 @@ const PORT = process.env.PORT;
 const apollo = new ApolloServer({
   resolvers,
   typeDefs,
-  context: async ({ req }) => {
-    return {
-      loggedInUser: await getUser(req.headers.authorization),
-    };
+  context: async (ctx) => {
+    if (ctx.req) {
+      return {
+        loggedInUser: await getUser(ctx.req.headers.authorization),
+      };
+    } else {
+      const { connection: { context }, } = ctx;
+      return {
+        loggedInUser: context.loggedInUser,
+      };
+    }
+  },
+  subscriptions: {
+    onConnect: async ({ authorization }) => {
+      // Connection parameters
+      // Connection이 이뤄지는 순간 HTTP headers를 줌
+      if (!authorization) {
+        throw new Error("You can't listen.");
+      }
+      const loggedInUser = await getUser(authorization);
+      return {
+        loggedInUser,
+      };
+    },
   },
 });
 
@@ -24,6 +45,10 @@ const app = express();
 app.use(logger("tiny"));
 apollo.applyMiddleware({ app });
 app.use("/static", express.static("uploads"));
-app.listen({ port: PORT }, () => {
+
+const httpServer = http.createServer(app);
+apollo.installSubscriptionHandlers(httpServer);
+
+httpServer.listen(PORT, () => {
   console.log(` 🚀 Server ready at http://localhost:${PORT}/graphql ✅`);
 });

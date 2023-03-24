@@ -51,7 +51,7 @@ Instaclone Backend.
 - [✔] See Rooms
 - [✔] Computed Fields
 - [✔] See (Read) Message
-- [] Realtime Messages
+- [✔] Realtime Messages
 
 <pre><code>{
     rooms {
@@ -74,3 +74,6 @@ Instaclone Backend.
 }</code></pre>
 
 Realtime에 특화된 언어: erlang, elixir...
+
+http: request를 보내면 request에 대한 응답을 받고 죽음
+Websocket: connection을 열고, connection을 유지하고, 실시간으로 모든 걸 주고 받을 수 있음, Websocket은 request가 없음
