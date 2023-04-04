@@ -1,6 +1,6 @@
-import client from '../../client';
+import client from "../../client";
 import bcrypt from "bcrypt";
-import Jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 export default {
     Mutation: {
@@ -24,7 +24,7 @@ export default {
             }
 
             // issue a token and send it to the user
-            const token = await Jwt.sign({ id: user.id }, process.env.SECRET_KEY);
+            const token = await jwt.sign({ id: user.id }, process.env.SECRET_KEY);
             return {
                 ok: true,
                 token,

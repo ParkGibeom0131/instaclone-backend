@@ -1,13 +1,13 @@
 import jwt from "jsonwebtoken";
 import client from './../client';
 
-export const getUser = async (Authorization) => {
+export const getUser = async (token) => {
     try {
-        if (!Authorization) {
+        if (!token) {
             return null;
         }
 
-        const { id } = await jwt.verify(Authorization, process.env.SECRET_KEY);
+        const { id } = await jwt.verify(token, process.env.SECRET_KEY);
         const user = await client.user.findUnique({ where: { id } });
 
         if (user) {

@@ -17,7 +17,7 @@ const apollo = new ApolloServer({
   context: async (ctx) => {
     if (ctx.req) {
       return {
-        loggedInUser: await getUser(ctx.req.headers.authorization),
+        loggedInUser: await getUser(ctx.req.headers.token),
       };
     } else {
       const { connection: { context }, } = ctx;
@@ -27,13 +27,13 @@ const apollo = new ApolloServer({
     }
   },
   subscriptions: {
-    onConnect: async ({ authorization }) => {
+    onConnect: async ({ token }) => {
       // Connection parameters
       // Connection이 이뤄지는 순간 HTTP headers를 줌
-      if (!authorization) {
+      if (!token) {
         throw new Error("You can't listen.");
       }
-      const loggedInUser = await getUser(authorization);
+      const loggedInUser = await getUser(token);
       return {
         loggedInUser,
       };
@@ -42,7 +42,7 @@ const apollo = new ApolloServer({
 });
 
 const app = express();
-app.use(logger("tiny"));
+app.use(logger("dev"));
 apollo.applyMiddleware({ app });
 app.use("/static", express.static("uploads"));
 

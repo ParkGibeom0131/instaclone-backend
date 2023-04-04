@@ -1,33 +1,32 @@
-import { protectedResolver } from './../../users/users.utils';
 import client from './../../client';
+import { protectedResolver } from './../../users/users.utils';
 
 export default {
     Query: {
-        seeFeed: protectedResolver((_, { lastId }, { loggedInUser }) => client.photo.findMany({
-            where: {
-                OR: [
-                    {
-                        user: {
-                            followers: {
-                                some: {
-                                    id: loggedInUser.id,
+        seeFeed: protectedResolver((_, { offset }, { loggedInUser }) =>
+            client.photo.findMany({
+                take: 2,
+                skip: offset,
+                where: {
+                    OR: [
+                        {
+                            user: {
+                                followers: {
+                                    some: {
+                                        id: loggedInUser.id,
+                                    },
                                 },
                             },
                         },
-                    },
-                    {
-                        userId: loggedInUser.id,
-                    },
-                ],
-            },
-
-            take: 5,
-            skip: lastId ? 1 : 0,
-            ...(lastId && { cursor: { id: lastId } }),
-
-            orderBy: {
-                createdAt: "desc",
-            },
-        }))
+                        {
+                            userId: loggedInUser.id,
+                        },
+                    ],
+                },
+                orderBy: {
+                    createdAt: "desc",
+                },
+            })
+        ),
     },
 };
