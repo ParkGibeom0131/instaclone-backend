@@ -42,7 +42,7 @@ const apollo = new ApolloServer({
 });
 
 const app = express();
-app.use(logger("dev"));
+app.use(logger("tiny"));
 apollo.applyMiddleware({ app });
 app.use("/static", express.static("uploads"));
 

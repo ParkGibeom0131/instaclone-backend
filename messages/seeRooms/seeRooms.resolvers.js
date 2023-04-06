@@ -3,7 +3,7 @@ import client from './../../client';
 
 export default {
     Query: {
-        seeRooms: protectedResolver(async (_, { lastId }, { loggedInUser }) => client.room.findMany({
+        seeRooms: protectedResolver(async (_, { offset }, { loggedInUser }) => client.room.findMany({
             where: {
                 users: {
                     some: {
@@ -11,9 +11,8 @@ export default {
                     },
                 },
             },
-            take: 5,
-            skip: lastId ? 1 : 0,
-            ...(lastId && { cursor: { id: lastId } }),
+            take: 2,
+            skip: offset,
         })),
     },
 };
